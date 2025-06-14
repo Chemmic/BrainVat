@@ -52,7 +52,7 @@
 }
 
 .social-icons a {
-  color: black;
+  color: #333238;
   font-size: 22px;
   text-decoration: none;
   transition: opacity 0.2s ease;
@@ -63,6 +63,7 @@
 }
 
 .footer-links {
+  color: #333238;
   display: flex;
   gap: 80px;
   justify-content: center;
