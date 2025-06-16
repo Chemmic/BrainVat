@@ -1,4 +1,5 @@
-/* color palette from <https://github.com/vuejs/theme> */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap'); /* color palette from <https://github.com/vuejs/theme> */
+
 :root {
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
@@ -19,6 +20,13 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+
+  --cyber-amethyst: #9482BC;
+  --dreamcore-graphite: #333238;
+  --plasma-alloy: #D4BFAA;
+  --crypto-mint: #BEFFE6;
+  --neuchrome-silver: #B4C9DC;
+  --synapse-steel: #7D8088;
 }
 
 /* semantic color variables for this project */
@@ -58,9 +66,31 @@
   font-weight: normal;
 }
 
+.primary {
+    color: var(--color-heading);
+}
+
+h1 {
+  font-family: Orbitron, sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 700;
+  line-height: 26px;
+}
+
+h3 {
+  font-family: Orbitron, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 700;
+  line-height: 15px;
+}
+
 body {
   min-height: 100vh;
-  color: var(--vt-c-black);
+  color: var(--dreamcore-graphite);
   background: var(--color-background);
   transition:
     color 0.5s,
