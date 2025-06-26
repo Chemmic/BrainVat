@@ -31,19 +31,19 @@ async function logout() {
         mode="horizontal"
         :default-active="'1'"
         background-color="transparent"
-        text-color="#1E1E1E"
-        active-text-color="#1E1E1E"
+        text-color="#333238"
+        active-text-color="#000"
         class="menu"
       >
         <el-menu-item index="1" @click="$router.push('/jobs')">View Jobs</el-menu-item>
 
-        <el-menu-item index="2">Resources</el-menu-item>
-        <el-menu-item index="3">Contact</el-menu-item>
+        <el-menu-item index="2" @click="$router.push('/jobs')">Resources</el-menu-item>
+        <el-menu-item index="3" @click="$router.push('/jobs')">Contact</el-menu-item>
       </el-menu>
 
       <div v-if="!userStore.isLoggedIn" class="button-group">
         <RouterLink to="/login">
-          <el-button type="default" plain class="gray">Sign in</el-button>
+          <el-button type="info" plain class="gray">Sign in</el-button>
         </RouterLink>
         <RouterLink to="/register">
           <el-button type="primary" class="black">Register</el-button>
@@ -105,7 +105,7 @@ async function logout() {
   border: none;
   cursor: pointer;
   font-size: 15px;
-  color: #333;
+  color: #333238;
 
 }
 
@@ -188,14 +188,22 @@ async function logout() {
 }
 
 .black {
-  background-color: black;
+  background-color: #333238;
   color: white;
   border: none;
 }
 
+.black:hover {
+  background-color: #7D8088;
+}
+
 .gray {
-  background-color: #D9D9D9;
-  color: black;
+  background-color: #B4C9DC;
+  color: #333238;
   border: none;
+}
+
+.gray:hover {
+  background-color: #c7dff3;
 }
 </style>

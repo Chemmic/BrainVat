@@ -10,7 +10,7 @@
           placeholder="Browse your next dream..."
           class="search-input"
         />
-        <button class="search-button">Search</button>
+        <button type="submit" class="search-button">Search</button>
       </div>
     </div>
   </section>
@@ -18,7 +18,7 @@
 
 <style scoped>
 .main {
-  background-color: #f5f5f5;
+  background-color: #9482BC;
   padding: 80px 0;
   display: flex;
   justify-content: center;
@@ -41,12 +41,12 @@ h1 {
   font-size: 86px;
   font-weight: 900;
   margin-bottom: 30px;
-  color: #1e1e1e;
+  color: #333238;
 }
 
 .subtitle {
   font-size: 34px;
-  color: #555;
+  color: #333238;
   margin-bottom: 50px;
 }
 
@@ -70,7 +70,7 @@ h1 {
 .search-button {
   padding: 20px 32px;
   font-size: 20px;
-  background-color: #1e1e1e;
+  background-color: #333238;
   color: white;
   border: none;
   border-radius: 10px;
@@ -79,6 +79,6 @@ h1 {
 }
 
 .search-button:hover {
-  background-color: #000;
+  background-color: #7D8088;
 }
 </style>

@@ -33,7 +33,7 @@
         <div class="form-column">
           <span class="error-message">{{ errors.password }}</span>
           <input type="text" placeholder="Password" v-model="form.password" />
-          <progress :value="passwordStrength" max="100" />
+          <progress id="password-progress" :value="passwordStrength" max="100" :class="passwordColor"/>
         </div>
 
 
@@ -50,6 +50,7 @@
 </template>
 
 <script setup>
+
 import { reactive, computed } from 'vue'
 import { supabase } from '@/lib/supabase'
 import { generateIQ } from '@/utils/iq'
@@ -75,6 +76,13 @@ const errors = reactive({
   emailRepeat: '',
   password: '',
   passwordRepeat: '',
+})
+
+const passwordColor = computed(() => {
+  const strength = passwordStrength.value
+  if (strength >= 100) return 'green-password'
+  if (strength >= 60) return 'orange-password'
+  return 'red-password'
 })
 
 const passwordStrength = computed(() => {
@@ -174,7 +182,7 @@ async function handleSubmit() {
 
 <style scoped>
 .register-page {
-  background-color: #f5f5f5;
+  background-color: #9482BC;
   width: 100%;
   min-height: 100%;
   box-sizing: border-box;
@@ -262,14 +270,28 @@ progress::-webkit-progress-bar {
   border-radius: 4px;
 }
 
-progress::-webkit-progress-value {
-  background-color: #BEFFE6;
-  border-radius: 4px;
+.red-password::-webkit-progress-value {
+  background-color: #ffbebe;
 }
 
-progress::-moz-progress-bar {
+.orange-password::-webkit-progress-value {
+  background-color: #ffd7be;
+}
+
+.green-password::-webkit-progress-value {
   background-color: #BEFFE6;
-  border-radius: 4px;
+}
+
+.red-password::-moz-progress-bar {
+  background-color: #ffbebe;
+}
+
+.orange-password::-moz-progress-bar {
+  background-color: #ffd7be;
+}
+
+.green-password::-moz-progress-bar {
+  background-color: #BEFFE6;
 }
 
 .submit-button {
