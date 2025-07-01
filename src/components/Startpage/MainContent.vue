@@ -17,28 +17,27 @@ function search() {
 const steps = ref([
   {
     title: 'Apply',
-    text: 'Sign up for a job.',
+    text: 'Sign up and apply for Jobs on BrainVat.xyz.\nYou can search and filter between a vast variety of jobs!',
     image: 'Apply.png',
   },
   {
     title: 'Get Package',
-    text: 'The BCI package will be sent directly to your home.',
-    image: 'Package.png',
+    text: 'The BCI package will be sent directly to your home.\n' +
+        "You will rent the BCI device until you do not need it anymore",
+    image: 'BrainVatUebergabe.jpg',
   },
   {
     title: 'Earn in your sleep',
-    text: 'Earn your income while you sleep.',
+    text: 'Each BCI is connected with your account and one specific job.\nJust put it on while sleeping to litterly make money while sleeping!',
     image: 'Sleep.png',
   },
   {
     title: 'Return Package',
-    text: 'Return your BCI package to us.',
-    image: 'https://via.placeholder.com/200x150',
+    text: 'You dont want to use BrainVat or a specific job anymore?\nNo problem! Just return the BCI back to us.'
   },
   {
     title: 'Get Paid',
-    text: 'Receive your payment.',
-    image: 'https://via.placeholder.com/200x150',
+    text: 'Receive your payment.'
   },
 ])
 </script>
@@ -66,26 +65,28 @@ const steps = ref([
 
       <div class="spacer"></div>
 
-
+<h2 class="timeline-title">How does BrainVat work</h2>
       <div class="timeline-section">
-        <el-timeline>
-          <el-timeline-item
-              v-for="(step, index) in steps"
-              :key="index"
-              :timestamp="`Step ${index + 1}`"
-              placement="alternate"
-          >
-            <div class="timeline-content">
-              <div v-if="index % 2 === 0" class="timeline-left">
-                <h3>{{ step.title }}</h3>
-                <p>{{ step.text }}</p>
-              </div>
-              <div v-else class="timeline-right">
-                <img :src="step.image" alt="Step image" class="timeline-image"/>
-              </div>
-            </div>
-          </el-timeline-item>
-        </el-timeline>
+
+<div class="custom-timeline">
+  <div
+    v-for="(step, index) in steps"
+    :key="index"
+    class="timeline-item"
+    :class="index % 2 === 0 ? 'left' : 'right'"
+  >
+    <!-- Die Zahl auf der Mittellinie -->
+    <div :class="index % 2 === 0 ? 'left-circle' : 'right-circle'">{{ index + 1 }}</div>
+
+    <!-- Inhalt (Text + Bild) abwechselnd links/rechts -->
+    <div class="timeline-content">
+      <h3>{{ step.title }}</h3>
+      <p>{{ step.text }}</p>
+      <img :src="step.image" class="timeline-image"  alt=""/>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
   </section>
@@ -118,6 +119,13 @@ h1 {
   font-size: 5rem;
   font-weight: 900;
   margin-bottom: 1.5rem;
+  color: #333238;
+}
+
+h2 {
+  font-size: 5rem;
+  font-weight: 900;
+  margin-bottom: -7rem;
   color: #333238;
 }
 
@@ -176,6 +184,7 @@ h1 {
 
 
 .timeline-section {
+
   margin-top: 10%;
   padding: 0 0;
   width: 100%;
@@ -183,27 +192,105 @@ h1 {
   justify-content: center;
 }
 
-.timeline-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  max-width: 800px;
+
+.custom-timeline {
+  position: relative;
   margin: 0 auto;
+  padding: 50px 0;
+  width: 100%;
+  max-width: 1000px;
 }
 
-.timeline-left,
-.timeline-right {
-  max-width: 45%;
-  flex: 1 1 300px;
+/* Zentrale vertikale Linie */
+.custom-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 100%;
+  background-color: white;
+  z-index: 1;
+}
+
+/* Timeline-Eintrag */
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 2rem 2rem;
+  box-sizing: border-box;
+}
+
+.timeline-item.left {
+  left: 0;
+  text-align: right;
+}
+
+.timeline-item.right {
+  left: 50%;
+  text-align: left;
+}
+
+/* Inhalte links/rechts */
+.timeline-content {
+  background-color: #ffffff22;
+  border-radius: 10px;
+  padding: 1rem;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .timeline-image {
-  max-width: 100%;
+  width: 100%;
+  margin-top: 10px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
 }
 
+/* Runde Nummern auf der Linie */
+.left-circle {
+  position: absolute;
+  top: 1rem;
+  left: 100%;
+  right: 0%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  background-color: white;
+  color: #333238;
+  border: 2px solid #333238;
+  width: 40px;
+  height: 40px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.right-circle {
+  position: absolute;
+  top: 1rem;
+  left: 0%;
+  right: 0%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  background-color: white;
+  color: #333238;
+  border: 2px solid #333238;
+  width: 40px;
+  height: 40px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
 /* Responsive */
 @media (max-width: 768px) {
   h1 {
@@ -219,7 +306,15 @@ h1 {
     font-size: 1rem;
     padding: 0.75rem 1rem;
   }
+  .timeline-content,
+  .timeline-content.reverse {
+    flex-direction: column;
+    text-align: center;
+  }
 
+  .timeline-text, .timeline-image-wrapper {
+    flex: 1 1 100%;
+  }
   .timeline-left,
   .timeline-right {
     max-width: 100%;
