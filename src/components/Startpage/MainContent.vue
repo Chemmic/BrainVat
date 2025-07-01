@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
 
 const searchQuery = ref('')
 const router = useRouter()
@@ -8,7 +8,7 @@ const router = useRouter()
 function search() {
   const query = searchQuery.value.trim()
   if (query) {
-    router.push({ path: '/jobs', query: { search: query } })
+    router.push({path: '/jobs', query: {search: query}})
   } else {
     router.push('/jobs')
   }
@@ -16,78 +16,28 @@ function search() {
 
 const steps = ref([
   {
-    title: 'Test object1',
-    text: 'Lorem Ipsum test1',
+    title: 'Apply',
+    text: 'Sign up for a job.',
+    image: 'Apply.png',
+  },
+  {
+    title: 'Get Package',
+    text: 'The BCI package will be sent directly to your home.',
+    image: 'Package.png',
+  },
+  {
+    title: 'Earn in your sleep',
+    text: 'Earn your income while you sleep.',
+    image: 'Sleep.png',
+  },
+  {
+    title: 'Return Package',
+    text: 'Return your BCI package to us.',
     image: 'https://via.placeholder.com/200x150',
   },
   {
-    title: 'Test object2',
-    text: 'Lorem Ipsum test2',
-    image: 'https://via.placeholder.com/200x150',
-  },
-  {
-    title: 'Test object3',
-    text: 'Lorem Ipsum test3',
-    image: 'https://via.placeholder.com/200x150',
-  },
-  {
-    title: 'Test object4',
-    text: 'NLorem Ipsum test4',
-    image: 'https://via.placeholder.com/200x150',
-  },
-  {
-    title: 'Test object4',
-    text: 'Test object4',
-    image: 'https://via.placeholder.com/200x150',
-  },
-      {
-    title: 'Test object1',
-    text: 'Lorem Ipsum test1',
-    image: 'https://via.placeholder.com/200x150',
-  },
-  {
-    title: 'Test object2',
-    text: 'Lorem Ipsum test2',
-    image: 'https://via.placeholder.com/200x150',
-  },
-  {
-    title: 'Test object3',
-    text: 'Lorem Ipsum test3',
-    image: 'https://via.placeholder.com/200x150',
-  },
-  {
-    title: 'Test object4',
-    text: 'NLorem Ipsum test4',
-    image: 'https://via.placeholder.com/200x150',
-  },
-  {
-    title: 'Test object4',
-    text: 'Test object4',
-    image: 'https://via.placeholder.com/200x150',
-  },
-      {
-    title: 'Test object1',
-    text: 'Lorem Ipsum test1',
-    image: 'https://via.placeholder.com/200x150',
-  },
-  {
-    title: 'Test object2',
-    text: 'Lorem Ipsum test2',
-    image: 'https://via.placeholder.com/200x150',
-  },
-  {
-    title: 'Test object3',
-    text: 'Lorem Ipsum test3',
-    image: 'https://via.placeholder.com/200x150',
-  },
-  {
-    title: 'Test object4',
-    text: 'NLorem Ipsum test4',
-    image: 'https://via.placeholder.com/200x150',
-  },
-  {
-    title: 'Test object4',
-    text: 'Test object4',
+    title: 'Get Paid',
+    text: 'Receive your payment.',
     image: 'https://via.placeholder.com/200x150',
   },
 ])
@@ -97,75 +47,71 @@ const steps = ref([
   <section class="main">
     <!-- Hero-Teil -->
     <div class="hero-section">
-      <div class = "first-component">
-      <h1>Brain Vat</h1>
-      <p class="subtitle">Earn your income while you sleep</p>
+      <div>
+        <h1>Brain Vat</h1>
+        <p class="subtitle">Earn your income while you sleep</p>
+      </div>
+      <div class="search-wrapper">
+        <div class="search-bar">
+          <input
+              v-model="searchQuery"
+              @keyup.enter="search"
+              type="text"
+              placeholder="Browse your next dream..."
+              class="search-input"
+          />
+          <button type="submit" class="search-button" @click="search">Search</button>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
 
 
-
-    <div class="search-wrapper">
-      <div class="search-bar">
-        <input
-          v-model="searchQuery"
-          @keyup.enter="search"
-          type="text"
-          placeholder="Browse your next dream..."
-          class="search-input"
-        />
-        <button type="submit" class="search-button" @click="search">Search</button>
+      <div class="timeline-section">
+        <el-timeline>
+          <el-timeline-item
+              v-for="(step, index) in steps"
+              :key="index"
+              :timestamp="`Step ${index + 1}`"
+              placement="alternate"
+          >
+            <div class="timeline-content">
+              <div v-if="index % 2 === 0" class="timeline-left">
+                <h3>{{ step.title }}</h3>
+                <p>{{ step.text }}</p>
+              </div>
+              <div v-else class="timeline-right">
+                <img :src="step.image" alt="Step image" class="timeline-image"/>
+              </div>
+            </div>
+          </el-timeline-item>
+        </el-timeline>
       </div>
     </div>
-</div>
-
-    <div class="spacer"></div>
-
-
-    <div class="timeline-section">
-      <el-timeline>
-        <el-timeline-item
-          v-for="(step, index) in steps"
-          :key="index"
-          :timestamp="`Step ${index + 1}`"
-          placement="alternate"
-        >
-          <div class="timeline-content">
-            <div v-if="index % 2 === 0" class="timeline-left">
-              <h3>{{ step.title }}</h3>
-              <p>{{ step.text }}</p>
-            </div>
-            <div v-else class="timeline-right">
-              <img :src="step.image" alt="Step image" class="timeline-image" />
-            </div>
-          </div>
-        </el-timeline-item>
-      </el-timeline>
-    </div>
-      </div>
   </section>
 </template>
 
 <style scoped>
 .main {
   background-color: #9482BC;
-  overflow-x: hidden;
   width: 100%;
 }
-.first-component {
-  max-height: 100vh;
-  min-height: 100vh;
-}
-.hero-section {
-  min-height: 100vh;
 
+.hero-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   margin-top: 10%;
-  padding: 0 1rem;
-  padding-bottom: 0rem;
+  padding: 0 1rem 0;
   box-sizing: border-box;
+}
+
+.spacer {
+  margin-bottom: 8rem;
+  min-height: 50vh;
+  height: 500px;
 }
 
 h1 {
@@ -186,7 +132,8 @@ h1 {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: #9482BC;
+  background: var(--cyber-amethyst);
+  background: linear-gradient(180deg, var(--cyber-amethyst) 0%, rgba(237, 221, 83, 0) 100%);
   padding: 1rem 0;
   width: 100%;
 }
@@ -230,7 +177,7 @@ h1 {
 
 .timeline-section {
   margin-top: 10%;
-  padding: 0rem 0rem;
+  padding: 0 0;
   width: 100%;
   display: flex;
   justify-content: center;
