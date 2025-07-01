@@ -44,7 +44,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { supabase } from '@/lib/supabase'
+import { supabaseCopy } from '@/lib/supabaseCopy.js'
 import { useUserStore } from '@/components/stores/userStore'
 import { useRouter } from 'vue-router'
 
@@ -96,7 +96,7 @@ async function handleLogin() {
   isLoading.value = true
   loginError.value = ''
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabaseCopy.auth.signInWithPassword({
     email: form.email,
     password: form.password,
   })
@@ -133,17 +133,18 @@ async function handleLogin() {
 
 h1 {
   font-size: 70px;
+
   font-weight: 900;
   margin-bottom: 0;
   color: #1e1e1e;
-  margin-top: -40px;
+  margin-top: -20px;
 }
 
 .subtitle {
   font-size: 26px;
   color: #555;
   margin-bottom: 25px;
-  margin-top: 10px;
+  margin-top: 40px;
 }
 
 .register-form {

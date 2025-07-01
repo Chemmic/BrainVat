@@ -5,6 +5,8 @@ import RegisterSuccessView from '@/components/register/RegisterSuccessView.vue'
 import RegisterErrorView from '@/components/register/RegisterErrorView.vue'
 import LoginView  from "@/components/login/LoginView.vue";
 import JobsView from "@/components/jobs/JobsView.vue";
+import ContactPage from "@/components/contact/ContactPage.vue";
+import JobStats from "@/components/jobs/JobStats.vue";
 
 const routes = [
   {
@@ -12,12 +14,35 @@ const routes = [
     name: 'Home',
     component: MainContent,
   },
+
+      {
+    path: '/contact',
+    name: 'Contact',
+    component: ContactPage
+  },
       {
     path: '/register',
     name: 'Register',
     component: RegisterView,
   },
+    {
+  path: '/my-jobs',
+  name: 'MyJobs',
+  component: () => import('@/components/jobs/MyJobs.vue'),
+},
 
+      {
+    path: '/jobStats/:id',
+    name: 'JobStats',
+    component: JobStats
+  },
+
+
+{
+  path: '/faq',
+  name: 'FAQ',
+  component: () => import('@/components/faq/FAQView.vue'),
+},
       {
         path: '/register-success',
         name: 'RegisterSuccess',

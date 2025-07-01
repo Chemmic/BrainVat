@@ -6,17 +6,17 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+/src/lib/supabase.js
 node_modules
 .DS_Store
 dist
 dist-ssr
 coverage
 *.local
-/src/lib/supabase.js
+/src/lib/supabaseCopy.js
 /cypress/videos/
 /cypress/screenshots/
-src/lib/supabase.js
+src/lib/supabaseCopy.js
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

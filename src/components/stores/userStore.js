@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { supabaseCopy } from '@/lib/supabaseCopy.js'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -14,5 +15,11 @@ export const useUserStore = defineStore('user', {
       this.user = null
       this.isLoggedIn = false
     },
+    async restoreSession() {
+      const { data: { user } } = await supabaseCopy.auth.getUser()
+      if (user) {
+        this.login(user)
+      }
+    }
   },
 })

@@ -16,7 +16,7 @@ import vueDoubleSlider from 'vue-double-slider'
 import { faXTwitter, faInstagram, faYoutube, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 library.add(faXTwitter, faInstagram, faYoutube, faLinkedin)
 import { useUserStore } from '@/components/stores/userStore'
-import { supabase } from '@/lib/supabase'
+import { supabaseCopy } from '@/lib/supabaseCopy.js'
 
 
 const app = createApp(App)
@@ -28,7 +28,7 @@ app.use(vueDoubleSlider)
 
 const userStore = useUserStore()
 
-supabase.auth.getSession().then(({ data: { session } }) => {
+supabaseCopy.auth.getSession().then(({ data: { session } }) => {
   if (session?.user) {
     userStore.login(session.user)
   }

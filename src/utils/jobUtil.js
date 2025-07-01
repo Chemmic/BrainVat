@@ -1,8 +1,8 @@
-import droneImage from "@/assets/drone.png";
-import plant_ill from "@/assets/plant_ill.png";
-import text_to_speech from "@/assets/text-to-speech.jpg";
-import gaming from "@/assets/gaming.png";
-import droneImagebanner from "@/assets/drone_banner.jpg";
+import droneImage from "@/assets/drone.svg";
+import plant_ill from "@/assets/plant_ill.svg";
+import text_to_speech from "@/assets/text-to-speech.svg";
+import gaming from "@/assets/gaming.svg";
+import droneImagebanner from "@/assets/drone.svg";
 export const allJobs = [
   { id: 0, title: 'Autonomous Combat Drone Simulation', imageUrl: droneImage, bannerUrl:droneImagebanner ,description: 'Help train next-gen autonomous drones for tactical recognition and decision-making in high-risk conflict zones.', tags: ['AI', 'Military', 'Simulation'], price: '900$ per hour', featured: true },
   { id: 1, title: 'Plant Disease Recognition', imageUrl: plant_ill, description: 'The Tom Nook Institute is currently looking to develop a new AI model for recognizing plant diseases via satellite images.', tags: ['Biology', 'Nature'], price: '45$ per job' },

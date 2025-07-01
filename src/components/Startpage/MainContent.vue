@@ -1,3 +1,20 @@
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const searchQuery = ref('')
+const router = useRouter()
+
+function search() {
+  const query = searchQuery.value.trim()
+  if (query) {
+    router.push({ path: '/jobs', query: { search: query } })
+  } else {
+    router.push('/jobs')
+  }
+}
+</script>
+
 <template>
   <section class="main">
     <div class="content">
@@ -6,11 +23,13 @@
 
       <div class="search-bar">
         <input
+          v-model="searchQuery"
+          @keyup.enter="search"
           type="text"
           placeholder="Browse your next dream..."
           class="search-input"
         />
-        <button type="submit" class="search-button">Search</button>
+        <button type="submit" class="search-button" @click="search">Search</button>
       </div>
     </div>
   </section>

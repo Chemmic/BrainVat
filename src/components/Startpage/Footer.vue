@@ -16,7 +16,6 @@
       </a>
     </div>
 
-    <!-- Footer Links -->
     <div class="footer-links">
       <div class="column">
         <a href="#">Salaries</a>
@@ -24,7 +23,7 @@
       </div>
       <div class="column">
         <a href="#">Terms</a>
-        <a href="#">FAQ</a>
+        <a href="/faq">FAQ</a>
       </div>
       <div class="column">
         <a href="#">About</a>

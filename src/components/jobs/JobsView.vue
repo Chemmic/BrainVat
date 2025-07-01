@@ -1,6 +1,6 @@
 <template>
   <div class="jobs-page">
-    <template v-if="userStore.isLoggedIn">
+
       <div class="top-bar">
         <div class="top-left">
           <h1 class="title">Brain Vat – Dashboard</h1>
@@ -129,7 +129,14 @@
                   <RouterLink :to="`/jobs/${job.id}`">
                     <button class="text-button">View Details</button>
                   </RouterLink>
-                  <button class="apply-button">Apply for Job</button>
+                <button
+                  class="apply-button"
+                  :disabled="appliedJobIds.includes(job.id)"
+                  @click="confirmApply(job.id)"
+                  :title="appliedJobIds.includes(job.id) ? 'You already applied for this job' : ''"
+                >
+                  {{'Apply for Job' }}
+                </button>
                 </div>
               </div>
             </div>
@@ -139,31 +146,37 @@
           <p class="no-results">No jobs found matching your filters.</p>
         </template>
       </div>
-    </template>
-
-    <template v-else>
-      <div class="not-logged-in">
-        <h2>You need to be logged in to see this page</h2>
-        <button class="signin-button" @click="router.push('/login')">Login</button>
-      </div>
-    </template>
   </div>
+<div v-if="showConfirmPopup" class="popup-backdrop">
+  <div class="popup-box">
+    <p class="popup-text">
+      Are you sure you want to do this job?<br />
+      Currently there's no application needed – if you accept, a BrainVat Device will be sent to you!
+    </p>
+    <div class="popup-actions">
+      <button @click="cancelApply" class="popup-cancel">Cancel</button>
+      <button @click="doApply" class="popup-confirm">Confirm</button>
+    </div>
+  </div>
+</div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import {ref, computed, onMounted} from 'vue'
 import { useUserStore } from '@/components/stores/userStore'
-import { useRouter } from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import placeholderImage from '@/assets/img_placeholder.png'
 import droneImage from '@/assets/drone.png'
 import plant_ill from '@/assets/plant_ill.png'
 import text_to_speech from '@/assets/text-to-speech.jpg'
 import gaming from '@/assets/gaming.png'
 import {allJobs} from '@/utils/jobUtil.js'
-
+import { supabaseCopy } from '@/lib/supabaseCopy.js'
+import { ElMessage } from 'element-plus'
 
 const userStore = useUserStore()
 const router = useRouter()
+const route = useRoute()
 const isMenuOpen = ref(false)
 const allTagsShouldApply = ref(false)
 const selectedTags = ref([])
@@ -173,8 +186,81 @@ const incomeMax = ref(1000)
 const searchInput = ref('')
 const activeFilters = ref([])
 
+const appliedJobIds = ref([])
+const showConfirmPopup = ref(false)
+const pendingJobId = ref(null)
+
+onMounted(async () => {
+  const query = route.query.search
+  if (query && typeof query === 'string') {
+    searchInput.value = query
+    activeFilters.value.push(query)
+  }
+
+  if (userStore.isLoggedIn) {
+    const { data, error } = await supabaseCopy
+      .from('user_jobs')
+      .select('job_id')
+      .eq('user_id', userStore.user.id)
+
+    appliedJobIds.value = data?.map(entry => entry.job_id) || []
+  }
+})
+function confirmApply(jobId) {
+  if (!userStore.isLoggedIn) {
+    alert("You must be signed in to apply.")
+    return
+  }
+  pendingJobId.value = jobId
+  showConfirmPopup.value = true
+}
+
+function cancelApply() {
+  showConfirmPopup.value = false
+  pendingJobId.value = null
+}
+
+async function doApply() {
+  if (!pendingJobId.value) return
+  const jobId = pendingJobId.value
+
+  const { error } = await supabaseCopy.from('user_jobs').insert({
+    user_id: userStore.user.id,
+    job_id: jobId,
+  })
+
+  if (error) {
+    console.error(error)
+    ElMessage.error('Something went wrong while applying.')
+  } else {
+    appliedJobIds.value.push(jobId)
+    ElMessage.success('Successfully applied! A BrainVat Device will be shipped!')
+  }
+
+  showConfirmPopup.value = false
+  pendingJobId.value = null
+}
 
 
+async function applyToJob(jobId) {
+  if (!userStore.isLoggedIn) {
+    alert("You must be signed in to apply.")
+    return
+  }
+
+  const { error } = await supabaseCopy.from('user_jobs').insert({
+    user_id: userStore.user.id,
+    job_id: jobId,
+  })
+
+  if (error) {
+    console.error(error)
+    alert("Something went wrong when applying.")
+  } else {
+    alert("Successfully applied!")
+    appliedJobIds.value.push(jobId)
+  }
+}
 function toggleMenu() {
   isMenuOpen.value = !isMenuOpen.value
 }
@@ -279,9 +365,66 @@ const jobs = computed(() => {
   flex-wrap: wrap;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
+.apply-button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
 
 .top-left {
   flex: 1;
+}
+.popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-box {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0,0,0,0.1);
+}
+
+.popup-text {
+  font-size: 16px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.popup-cancel,
+.popup-confirm {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.popup-cancel {
+  background-color: #ddd;
+  color: #333;
+}
+
+.popup-confirm {
+  background-color: #1e1e1e;
+  color: white;
 }
 
 .title {

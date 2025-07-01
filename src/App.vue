@@ -13,7 +13,7 @@ import Header from '@/components/Startpage/Header.vue'
 import Footer from '@/components/Startpage/Footer.vue'
 import { onMounted, onBeforeUnmount } from 'vue'
 import { useUserStore } from '@/components/stores/userStore'
-import { supabase } from '@/lib/supabase'
+import { supabaseCopy } from '@/lib/supabaseCopy.js'
 import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
@@ -25,7 +25,7 @@ const idleLimit = 10 * 60 * 1000 // 10 Minuten
 function resetIdleTimer() {
   clearTimeout(idleTimer)
   idleTimer = setTimeout(async () => {
-    await supabase.auth.signOut()
+    await supabaseCopy.auth.signOut()
     userStore.logout()
     router.push('/login')
   }, idleLimit)
@@ -52,6 +52,10 @@ onBeforeUnmount(() => {
   flex-direction: column;
 }
 
+*:focus,
+*:active {
+  outline: none !important;
+}
 
 .header {
   position: fixed;
