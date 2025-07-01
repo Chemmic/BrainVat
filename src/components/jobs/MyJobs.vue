@@ -32,7 +32,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useUserStore } from '@/components/stores/userStore'
-import { supabaseCopy } from '@/lib/supabaseCopy.js'
+import { supabase } from '@/lib/supabase.js'
 import { useRouter } from 'vue-router'
 import { allJobs } from '@/utils/jobUtil'
 import { ElMessage } from 'element-plus'
@@ -45,7 +45,7 @@ const appliedJobs = ref([])
 onMounted(async () => {
   if (!userStore.isLoggedIn) return
 
-  const { data, error } = await supabaseCopy
+  const { data, error } = await supabase
     .from('user_jobs')
     .select('job_id, status')
     .eq('user_id', userStore.user.id)
@@ -71,7 +71,7 @@ async function cancelJob(jobId) {
     job_id: jobId
   })
 
-  const { error } = await supabaseCopy
+  const { error } = await supabase
     .from('user_jobs')
     .delete()
     .eq('user_id', userStore.user.id)

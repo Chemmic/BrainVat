@@ -2,7 +2,7 @@
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/components/stores/userStore'
 import { ref, computed } from 'vue'
-import { supabaseCopy } from '@/lib/supabaseCopy.js'
+import { supabase } from '@/lib/supabase.js'
 import { onMounted, onBeforeUnmount } from 'vue'
 
 const dropdownRef = ref(null)
@@ -36,7 +36,7 @@ onBeforeUnmount(() => {
 })
 
 async function logout() {
-  await supabaseCopy.auth.signOut()
+  await supabase.auth.signOut()
   userStore.logout()
 }
 </script>

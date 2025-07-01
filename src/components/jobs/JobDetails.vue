@@ -110,7 +110,7 @@ import { allJobs } from '@/utils/jobUtil'
 import { useUserStore } from '@/components/stores/userStore'
 
 import { useRouter } from 'vue-router'
-import {supabaseCopy} from "@/lib/supabaseCopy.js";
+import {supabase} from "@/lib/supabase.js";
 import {ElMessage} from "element-plus";
 const userStore = useUserStore()
 const router = useRouter()
@@ -126,7 +126,7 @@ const pendingJobId = ref(null)
 onMounted(async () => {
 
   if (userStore.isLoggedIn) {
-    const { data, error } = await supabaseCopy
+    const { data, error } = await supabase
       .from('user_jobs')
       .select('job_id')
       .eq('user_id', userStore.user.id)
@@ -154,7 +154,7 @@ async function doApply() {
   if (!pendingJobId.value) return
   const jobId = pendingJobId.value
 
-  const { error } = await supabaseCopy.from('user_jobs').insert({
+  const { error } = await supabase.from('user_jobs').insert({
     user_id: userStore.user.id,
     job_id: jobId,
   })

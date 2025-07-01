@@ -44,7 +44,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { supabaseCopy } from '@/lib/supabaseCopy.js'
+import { supabase } from '@/lib/supabase.js'
 import { useUserStore } from '@/components/stores/userStore'
 import { useRouter } from 'vue-router'
 
@@ -96,7 +96,7 @@ async function handleLogin() {
   isLoading.value = true
   loginError.value = ''
 
-  const { data, error } = await supabaseCopy.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email: form.email,
     password: form.password,
   })

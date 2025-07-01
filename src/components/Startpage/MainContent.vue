@@ -13,6 +13,8 @@ function search() {
     router.push('/jobs')
   }
 }
+
+
 </script>
 
 <template>
@@ -30,6 +32,26 @@ function search() {
           class="search-input"
         />
         <button type="submit" class="search-button" @click="search">Search</button>
+      </div>
+          <div class="timeline-section">
+        <el-timeline>
+          <el-timeline-item
+            v-for="(step, index) in steps"
+            :key="index"
+            :timestamp="`Step ${index + 1}`"
+            placement="alternate"
+          >
+            <div class="timeline-content">
+              <div v-if="index % 2 === 0" class="timeline-left">
+                <h3>{{ step.title }}</h3>
+                <p>{{ step.text }}</p>
+              </div>
+              <div v-else class="timeline-right">
+                <img :src="step.image" alt="Step image" class="timeline-image" />
+              </div>
+            </div>
+          </el-timeline-item>
+        </el-timeline>
       </div>
     </div>
   </section>
@@ -68,7 +90,28 @@ h1 {
   color: #333238;
   margin-bottom: 50px;
 }
+.timeline-section {
+  margin-top: 100px;
+  padding: 40px 0;
+}
 
+.timeline-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.timeline-left,
+.timeline-right {
+  max-width: 45%;
+}
+
+.timeline-image {
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 .search-bar {
   display: flex;
   justify-content: center;

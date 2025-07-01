@@ -171,7 +171,7 @@ import plant_ill from '@/assets/plant_ill.png'
 import text_to_speech from '@/assets/text-to-speech.jpg'
 import gaming from '@/assets/gaming.png'
 import {allJobs} from '@/utils/jobUtil.js'
-import { supabaseCopy } from '@/lib/supabaseCopy.js'
+import { supabase } from '@/lib/supabase.js'
 import { ElMessage } from 'element-plus'
 
 const userStore = useUserStore()
@@ -198,7 +198,7 @@ onMounted(async () => {
   }
 
   if (userStore.isLoggedIn) {
-    const { data, error } = await supabaseCopy
+    const { data, error } = await supabase
       .from('user_jobs')
       .select('job_id')
       .eq('user_id', userStore.user.id)
@@ -224,7 +224,7 @@ async function doApply() {
   if (!pendingJobId.value) return
   const jobId = pendingJobId.value
 
-  const { error } = await supabaseCopy.from('user_jobs').insert({
+  const { error } = await supabase.from('user_jobs').insert({
     user_id: userStore.user.id,
     job_id: jobId,
   })
@@ -248,7 +248,7 @@ async function applyToJob(jobId) {
     return
   }
 
-  const { error } = await supabaseCopy.from('user_jobs').insert({
+  const { error } = await supabase.from('user_jobs').insert({
     user_id: userStore.user.id,
     job_id: jobId,
   })

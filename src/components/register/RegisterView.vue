@@ -52,7 +52,7 @@
 <script setup>
 
 import { reactive, computed } from 'vue'
-import { supabaseCopy } from '@/lib/supabaseCopy.js'
+import { supabase } from '@/lib/supabase.js'
 import { generateIQ } from '@/utils/iq'
 import { useUserStore } from '@/components/stores/userStore'
 import { useRouter } from 'vue-router'
@@ -140,7 +140,7 @@ function validateForm() {
 async function handleSubmit() {
   if (!validateForm()) return
 
-  const { data, error } = await supabaseCopy.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email: form.email,
     password: form.password,
   })
@@ -151,7 +151,7 @@ async function handleSubmit() {
   }
 
   // Warten auf Session → notwendig für dieses RLS von spabase!
-  const { data: sessionData } = await supabaseCopy.auth.getSession()
+  const { data: sessionData } = await supabase.auth.getSession()
   const userId = sessionData?.session?.user?.id
 
   if (!userId) {
@@ -161,7 +161,7 @@ async function handleSubmit() {
 
   const iq = generateIQ()
 
-  const { error: insertError } = await supabaseCopy.from('profiles').insert([
+  const { error: insertError } = await supabase.from('profiles').insert([
     {
       id: userId,
       username: `${form.firstName} ${form.lastName}`,

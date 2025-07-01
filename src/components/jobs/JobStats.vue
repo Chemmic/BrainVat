@@ -37,7 +37,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/components/stores/userStore'
 import { allJobs } from '@/utils/jobUtil'
-import { supabaseCopy } from '@/lib/supabaseCopy.js'
+import { supabase } from '@/lib/supabase.js'
 import { Chart, registerables } from 'chart.js'
 
 Chart.register(...registerables)
@@ -73,7 +73,7 @@ onMounted(async () => {
     return
   }
 
-  const { data, error } = await supabaseCopy
+  const { data, error } = await supabase
     .from('user_jobs')
     .select('status')
     .eq('user_id', userStore.user.id)
